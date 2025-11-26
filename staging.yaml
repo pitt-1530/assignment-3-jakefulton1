@@ -10,18 +10,6 @@ jobs:
   deployment-pipeline:
     runs-on: ubuntu-latest
 
-    name: Deployment Pipeline
-
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-
-jobs:
-  deployment-pipeline:
-    runs-on: ubuntu-latest
-
     steps:
     uses: actions/checkout@v5
     uses: actions/setup-java@v4
