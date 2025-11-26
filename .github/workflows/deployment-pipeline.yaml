@@ -1,0 +1,40 @@
+name: Deployment Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  deployment-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build and verify
+        run: mvn --batch-mode --update-snapshots verify
+
+      - name: Package artifact
+        run: |
+          mkdir -p staging
+          cp target/*.jar staging || true
+
+      - name: Upload Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: Package
+          path: staging
+
+# Notes:
+# - Workflow files must live in `.github/workflows/` to be detected by GitHub Actions.
+# - Job id is `deployment-pipeline` (this appears in the workflow run details).
+# - Adjust Java version or steps if you want different behavior.
