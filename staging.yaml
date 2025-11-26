@@ -1,0 +1,17 @@
+steps:
+  - uses: actions/checkout@v5
+  - uses: actions/setup-java@v4
+    with:
+      java-version: '17'
+      distribution: 'temurin'
+  - run: mvn --batch-mode --update-snapshots verify
+  - run: mkdir staging && cp target/*.jar staging
+  - uses: actions/upload-artifact@v3
+    with:
+      name: Package
+      path: staging
+#I was unsure how to learn how to make a deployment pipeline
+# or how to make a JAR as as a release artifact
+# but I found this yaml directory at 
+#https://docs.github.com/en/enterprise-server@3.18/actions/tutorials/build-and-test-code/java-with-maven
+# and decided to copy it, I hope that's ok.
